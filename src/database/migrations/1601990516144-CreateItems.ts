@@ -5,13 +5,14 @@ export default class CreatePoints1601985710291 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
           new Table({
-            name: "points",
+            name: "items",
             "columns": [
               {
                 name: 'id',
                 type: 'uuid',
                 isPrimary: true,
                 generationStrategy: 'uuid',
+                default: 'uuid_generate_v4()'
               },
               {
                 name: 'image',
@@ -19,37 +20,7 @@ export default class CreatePoints1601985710291 implements MigrationInterface {
                 isNullable: false,
               },
               {
-                name: 'name',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'email',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'whatsapp',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'latitude',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'longitude',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'city',
-                type: 'varchar',
-                isNullable: false,
-              },
-              {
-                name: 'uf',
+                name: 'title',
                 type: 'varchar',
                 isNullable: false,
               },
@@ -69,7 +40,7 @@ export default class CreatePoints1601985710291 implements MigrationInterface {
       }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('points')
+        await queryRunner.dropTable('items')
     }
 
 }
