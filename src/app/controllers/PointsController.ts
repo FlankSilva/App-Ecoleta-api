@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 
 import Points from '../models/Points'
+import Items from '../models/Items'
 
 class  PointsController {
   async store(request: Request, response: Response) {
@@ -17,16 +18,28 @@ class  PointsController {
         items 
       } = request.body
 
-      // const itemsRepository = getRepository(Items)
+      const pointsRepository = getRepository(Points)
+      const itemsRepository = getRepository(Items)
 
-      // const item = itemsRepository.create({
-      //   image,
-      //   title,
-      // })
+      const existItems = await itemsRepository.findByIds(items)
 
-      // await itemsRepository.save(item)
+      if (!existItems) return response.status(401).json({ error: 'Items not exist' })
+
+      const point = pointsRepository.create({
+        image: 'image-fake.svg',
+        name,
+        email,
+        whatsapp,
+        latitude,
+        longitude,
+        city,
+        uf,
+        items: existItems
+      })
+
+      await pointsRepository.save(point)
     
-      return response.json()
+      return response.json(point)
       } catch (error) {
         return response.status(401).json({ error: error.message });
       }

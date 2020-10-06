@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm'
+import Items from './Items';
 
 @Entity('points')
 class Points {
@@ -29,11 +30,13 @@ class Points {
   @Column()
   uf: string
 
-  @CreateDateColumn()
-  create_at: Date;
-
-  @UpdateDateColumn()
-  update_at: Date
+  @ManyToMany(() => Items)
+  @JoinTable({
+    name: 'points_items',
+    joinColumns: [{ name: 'id_points' }],
+    inverseJoinColumns: [{name: 'id_items'}]
+  })
+  items: Items[]
 
 }
 
