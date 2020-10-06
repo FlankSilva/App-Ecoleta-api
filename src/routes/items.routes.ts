@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { getCustomRepository } from 'typeorm'
 
 import ItemsController from '../app/controllers/ItemsController'
 
