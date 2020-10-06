@@ -36,12 +36,12 @@ export default class CreatePoint1601994297675 implements MigrationInterface {
               },
               {
                 name: 'latitude',
-                type: 'varchar',
+                type: 'int',
                 isNullable: false,
               },
               {
                 name: 'longitude',
-                type: 'varchar',
+                type: 'int',
                 isNullable: false,
               },
               {

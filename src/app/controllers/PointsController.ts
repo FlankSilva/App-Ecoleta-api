@@ -4,6 +4,8 @@ import { getRepository } from 'typeorm'
 import Points from '../models/Points'
 import Items from '../models/Items'
 
+
+
 class  PointsController {
   async store(request: Request, response: Response) {
     try {
@@ -22,8 +24,9 @@ class  PointsController {
       const itemsRepository = getRepository(Items)
 
       const existItems = await itemsRepository.findByIds(items)
+      
 
-      if (!existItems) return response.status(401).json({ error: 'Items not exist' })
+      if (!existItems || existItems.length < 1) return response.status(401).json({ error: 'Items not exist' })
 
       const point = pointsRepository.create({
         image: 'image-fake.svg',
@@ -45,26 +48,19 @@ class  PointsController {
       }
   }
 
-//   async index(request: Request, response: Response) {
-//     try {
-//       const itemsRepository = getRepository(Items)
+  async show(request: Request, response: Response) {
+    const { id } = request.params
 
-//       const items = await itemsRepository.find()
+    const pointsRepository = getRepository(Points)
 
-//       const serializedItems = items.map(item => {
-//         return {
-//           id: item.id,
-//           title: item.title,
-//           image_url: `http://localhost:3333/uploads/${item.image}`
-//         }
-//       })
+    const point = await pointsRepository.findOne({
+      where: { id }
+    })
 
-//       return response.json(serializedItems)
-      
-//     } catch (error) {
-//       return response.status(401).json({ error: error.message })
-//     }
-//   }
+    if (!point) return response.status(401).json({ message: 'Point not found' })
+
+    return response.json(point)
+  }
 }
 
 export default PointsController

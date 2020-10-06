@@ -19,10 +19,10 @@ class Points {
   whatsapp: string
 
   @Column()
-  latitude: string
+  latitude: number
 
   @Column()
-  longitude: string
+  longitude: number
 
   @Column()
   city: string
