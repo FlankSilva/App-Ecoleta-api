@@ -7,6 +7,7 @@ const pointsController = new PointsController()
 const pointRoutes = Router()
 
 pointRoutes.post('/', pointsController.store)
+pointRoutes.get('/', pointsController.index)
 pointRoutes.get('/:id', pointsController.show)
 
 

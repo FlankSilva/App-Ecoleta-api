@@ -4,9 +4,19 @@ import { getRepository } from 'typeorm'
 import Points from '../models/Points'
 import Items from '../models/Items'
 
-
-
 class  PointsController {
+  async index(request: Request, response: Response) {
+    try {
+      const pointsRepository = getRepository(Points)
+
+      const points = await pointsRepository.find()
+      
+      return response.json(points)
+    } catch (error) {
+      return response.status(401).json({ error: error.message });
+    }
+  }
+
   async store(request: Request, response: Response) {
     try {
       const { 
