@@ -43,7 +43,7 @@ class  PointsController {
       if (!existItems || existItems.length < 1) return response.status(401).json({ error: 'Items not exist' })
 
       const point = pointsRepository.create({
-        image: 'image-fake.svg',
+        image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
         name,
         email,
         whatsapp,
