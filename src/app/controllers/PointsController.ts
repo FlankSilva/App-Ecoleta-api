@@ -52,12 +52,16 @@ class  PointsController {
     const { id } = request.params
 
     const pointsRepository = getRepository(Points)
+    const itemsRepository = getRepository(Items)
 
-    const point = await pointsRepository.findOne({
-      where: { id }
+    const point = await pointsRepository
+    .findOne({
+      where: { id },
     })
+    
 
     if (!point) return response.status(401).json({ message: 'Point not found' })
+
 
     return response.json(point)
   }

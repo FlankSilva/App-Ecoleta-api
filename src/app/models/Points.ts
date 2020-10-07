@@ -30,7 +30,7 @@ class Points {
   @Column()
   uf: string
 
-  @ManyToMany(() => Items)
+  @ManyToMany(() => Items, { eager: true })
   @JoinTable({
     name: 'points_items',
     joinColumns: [{ name: 'id_points' }],
