@@ -7,9 +7,13 @@ import Items from '../models/Items'
 class  PointsController {
   async index(request: Request, response: Response) {
     try {
+      const { city, uf,  } = request.query
+
       const pointsRepository = getRepository(Points)
 
-      const points = await pointsRepository.find()
+      const points = await pointsRepository.find({
+        where: { city, uf }
+      })
       
       return response.json(points)
     } catch (error) {
