@@ -7,15 +7,22 @@ import Items from '../models/Items'
 class  PointsController {
   async index(request: Request, response: Response) {
     try {
-      const { city, uf,  } = request.query
+      const { city, uf } = request.query
 
       const pointsRepository = getRepository(Points)
 
       const points = await pointsRepository.find({
         where: { city, uf }
       })
-      
-      return response.json(points)
+
+      const serializedPoints = points.map(point => {
+        return {
+          ...point,
+          image_url: `http://192.168.0.103:3333/uploads/${point.image}`
+        }
+      })
+
+      return response.json(serializedPoints)
     } catch (error) {
       return response.status(401).json({ error: error.message });
     }
@@ -37,13 +44,14 @@ class  PointsController {
       const pointsRepository = getRepository(Points)
       const itemsRepository = getRepository(Items)
 
-      const existItems = await itemsRepository.findByIds(items)
-      
+      const itemsConvert = items.split(', ')
+
+      const existItems = await itemsRepository.findByIds(itemsConvert)
 
       if (!existItems || existItems.length < 1) return response.status(401).json({ error: 'Items not exist' })
 
       const point = pointsRepository.create({
-        image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
+        image: request.file.filename,
         name,
         email,
         whatsapp,
@@ -73,11 +81,14 @@ class  PointsController {
       where: { id },
     })
     
-
     if (!point) return response.status(401).json({ message: 'Point not found' })
 
+    const serializedPoint = {
+      ...point,
+      image_url: `http://192.168.0.103:3333/uploads/${point.image}`
+    }
 
-    return response.json(point)
+    return response.json({point: serializedPoint})
   }
 }
 
